@@ -10,3 +10,9 @@ C:\Users\devedu21\Desktop\박송희\씨샵\씨샵과제진짜필요한거만모�
 C:\Users\devedu21\Desktop\박송희\씨샵\씨샵과제진짜필요한거만모음\ecount-asp-web-simple-inventory-management\dotNet\simple_erp\obj\Debug\ECount.csproj.CoreCompileInputs.cache
 C:\Users\devedu21\Desktop\박송희\씨샵\씨샵과제진짜필요한거만모음\ecount-asp-web-simple-inventory-management\dotNet\simple_erp\obj\Debug\ECount.dll
 C:\Users\devedu21\Desktop\박송희\씨샵\씨샵과제진짜필요한거만모음\ecount-asp-web-simple-inventory-management\dotNet\simple_erp\obj\Debug\ECount.pdb
+C:\Users\psh66\Desktop\씨샵\씨샵과제진짜필요한거만모음\ecount-asp-web-simple-inventory-management\dotNet\simple_erp\bin\Debug\ECount.dll
+C:\Users\psh66\Desktop\씨샵\씨샵과제진짜필요한거만모음\ecount-asp-web-simple-inventory-management\dotNet\simple_erp\bin\Debug\ECount.pdb
+C:\Users\psh66\Desktop\씨샵\씨샵과제진짜필요한거만모음\ecount-asp-web-simple-inventory-management\dotNet\simple_erp\obj\Debug\ECount.csprojAssemblyReference.cache
+C:\Users\psh66\Desktop\씨샵\씨샵과제진짜필요한거만모음\ecount-asp-web-simple-inventory-management\dotNet\simple_erp\obj\Debug\ECount.csproj.CoreCompileInputs.cache
+C:\Users\psh66\Desktop\씨샵\씨샵과제진짜필요한거만모음\ecount-asp-web-simple-inventory-management\dotNet\simple_erp\obj\Debug\ECount.dll
+C:\Users\psh66\Desktop\씨샵\씨샵과제진짜필요한거만모음\ecount-asp-web-simple-inventory-management\dotNet\simple_erp\obj\Debug\ECount.pdb

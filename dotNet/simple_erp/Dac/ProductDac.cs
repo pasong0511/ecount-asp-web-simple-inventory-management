@@ -17,10 +17,13 @@ namespace ECount.Dac
         static IStore<ProductModel> store = StoreResolver.GetStore<ProductModel>();
 
         //프로덕트 모델 생성
-        static public void Create(string name, ProductType type)
+        static public string Create(string name, ProductType type, int safeQuantity, string userId)
         {
             //이름과 타입을 넘겨줘서 생성된 ProductModel를 리스트에 담는다.
-            store.Save(new ProductModel(name, type));
+            var product = new ProductModel(name, type, safeQuantity, userId);
+            store.Save(product);
+
+            return product.Key;
         }
 
         //프로덕트 모델 겟
@@ -32,8 +35,22 @@ namespace ECount.Dac
         //이름으로 프로덕트 모델겟
         static public ProductModel Get(string name)
         {
-            //람다식 사용
             return store.Get(x => x.Name == name);
+        }
+
+        //키로 프로덕트 모델겟
+        static public ProductModel Get(string name, string key)
+        {
+            return store.Get(x => x.Key == key);
+        }
+
+        //키로 프로덕트 모델겟
+        static public void Del(string key)
+        {
+            store.Delete(x => x.Key == key);
+           
+
+            // return store.GetAll(x => x.Key != key);
         }
 
         //public ProductModel GetByType(ProductType type)

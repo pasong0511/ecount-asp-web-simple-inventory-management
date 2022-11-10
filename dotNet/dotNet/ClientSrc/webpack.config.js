@@ -1,6 +1,7 @@
 const path = require("path");
 
 module.exports = {
+    mode: "development",
     entry: {
         main: "./main.js",
         purchase: "./purchase.js",
@@ -11,4 +12,4 @@ module.exports = {
     output: {
         path: path.join(__dirname, "../Scripts"),
     },
-}
+};

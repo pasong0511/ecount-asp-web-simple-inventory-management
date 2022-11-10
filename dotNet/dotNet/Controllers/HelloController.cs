@@ -22,9 +22,9 @@ namespace dotNet
         {
             // return type string
             //return "hello~"; 
-            if (!System.IO.File.Exists("testFile.txt")) {
+            /*if (!System.IO.File.Exists("testFile.txt")) {
                 System.IO.File.Create("testFile.txt");
-            }
+            }*/
 
             // return type ActionResult
             //return Content("hello~");
@@ -100,11 +100,18 @@ namespace dotNet
         [HttpPost]
         public ActionResult Product(ProductModel product)
         {
+            var productInfo = new Dictionary<string, string>();
+
             if (product != null) {
-                ProductSDK.Create(product.Name, product.Type);
-                System.Diagnostics.Debug.WriteLine($"생성 -> {product.Name} {product.Type}");
+
+                string key = ProductSDK.Create(product.Name, product.Type, product.SafeQuantity, product.userId);
+                System.Diagnostics.Debug.WriteLine($"생성 -> {product.Name} {product.Type} {product.SafeQuantity} {product.userId}");
+                System.Diagnostics.Debug.WriteLine($"키 생성 -> {key}");
+                productInfo.Add("key", key);
             }
-            return new HttpStatusCodeResult(HttpStatusCode.OK);
+
+            return Json(productInfo, JsonRequestBehavior.AllowGet);
+            //return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
         //Product 들어있는 정보 다 줌
@@ -115,6 +122,20 @@ namespace dotNet
             products = ProductSDK.Get();
             System.Diagnostics.Debug.WriteLine($"출력 -> {products}");
             return Json(products, JsonRequestBehavior.AllowGet);
+        }
+
+        //나중에 딜리트 메소드로 변경
+        [HttpPost]
+        public ActionResult ProductDelete(DeleteModel data)
+        {
+            System.Diagnostics.Debug.WriteLine($"삭제?! -> {data.Key} , {data.userId}");
+
+
+            ProductSDK.Del(data.Key);
+
+
+            //일단 확인용
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
         //--> dlProduct에 들어있는 정보 하나만 줌
@@ -140,6 +161,19 @@ namespace dotNet
         //    }
         //    return new HttpStatusCodeResult(HttpStatusCode.OK);
         //}
+    }
+
+    public class DeleteModel
+    {
+        public string Key { get; set; }
+        public string userId { get; set; }
+
+        public DeleteModel() { }
+        public DeleteModel(string key, string userId)
+        {
+            this.Key = key;
+            this.userId = userId;
+        }
     }
 
     public class Data

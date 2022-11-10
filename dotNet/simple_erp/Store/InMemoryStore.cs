@@ -32,7 +32,8 @@ namespace ECount.Store
             return store.Find(match);
         }
 
-
-
+        public void Delete(Predicate<T> match)
+        {
+        }
     }
 }

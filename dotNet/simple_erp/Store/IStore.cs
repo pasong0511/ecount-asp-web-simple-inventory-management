@@ -12,5 +12,6 @@ namespace ECount.Store
         List<T> GetAll();
         List<T> GetAll(Predicate<T> match);
         T Get(Predicate<T> match);
+        void Delete(Predicate<T> match);
     }
 }
