@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="Dac\ProductDac.cs" />
     <Compile Include="Dac\PurchaseDac.cs" />
@@ -61,5 +62,6 @@
     <Compile Include="Store\IStore.cs" />
     <Compile Include="Store\StoreResolver.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -13,7 +13,7 @@ using System.Web.Mvc;
 namespace dotNet
 {
     // controller : *Controller로 작성된 컨트롤러는 url에 ~/* 경로를 통해 접근가능 
-    public class HelloController: Controller
+    public class HelloController : Controller
     {
         static List<Data> list = new List<Data>();
 
@@ -41,21 +41,6 @@ namespace dotNet
         }
 
         public ActionResult Product()
-        {
-            return View();
-        }
-
-        public ActionResult Purchases()
-        {
-            return View();
-        }
-
-        public ActionResult Sale()
-        {
-            return View();
-        }
-
-        public ActionResult Inventory()
         {
             return View();
         }

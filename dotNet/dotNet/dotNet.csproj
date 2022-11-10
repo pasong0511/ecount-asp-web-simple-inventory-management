@@ -93,6 +93,9 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\SaleController.cs" />
+    <Compile Include="Controllers\InventoryController.cs" />
+    <Compile Include="Controllers\PurchaseController .cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -106,11 +109,13 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Hello\SecondPage.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Hello\Purchases.cshtml" />
     <Content Include="Views\Hello\Sale.cshtml" />
     <Content Include="Views\Hello\Inventory.cshtml" />
     <Content Include="Views\Hello\Product.cshtml" />
     <Content Include="Views\Hello\TEST.cshtml" />
+    <Content Include="Views\Purchase\Purchase.cshtml" />
+    <Content Include="Views\Inventory\Inventory.cshtml" />
+    <Content Include="Views\Sale\Sale.cshtml" />
     <None Include="Views\Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

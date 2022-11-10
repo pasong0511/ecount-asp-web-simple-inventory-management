@@ -16,11 +16,32 @@ namespace dotNet
         {
             // 전역 라우팅 목록
             var routes = RouteTable.Routes;
+            var PurchaseRoutes = RouteTable.Routes;
+            var SaleRoutes = RouteTable.Routes;
+            var InventoryRoutes = RouteTable.Routes;
 
-            // 라우팅 등록
+            // 제품 라우팅 등록 -> 추후 클래스로 만들어서 빼기
             routes.MapRoute("Default"
                 , "{controller}/{action}"
                 , new { controller = "Hello", action ="Index"} // 라우팅 기본값 부여 가능
+            );
+
+            // 구매 라우팅 등록
+            PurchaseRoutes.MapRoute("Purchase"
+                , "{controller}/{action}"
+                , new { controller = "Purchase", action = "Index" } // 라우팅 기본값 부여 가능
+            );
+
+            // 구매 라우팅 등록
+            SaleRoutes.MapRoute("Sale"
+                , "{controller}/{action}"
+                , new { controller = "Sale", action = "Index" } // 라우팅 기본값 부여 가능
+            );
+
+            // 구매 라우팅 등록
+            InventoryRoutes.MapRoute("Inventory"
+                , "{controller}/{action}"
+                , new { controller = "Inventory", action = "Index" } // 라우팅 기본값 부여 가능
             );
         }
 
