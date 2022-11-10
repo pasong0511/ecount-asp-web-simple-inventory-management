@@ -1,0 +1,6 @@
+C:\Users\devedu21\Desktop\박송희\씨샵\이동\이동\asp-inventory-web-app\dotNet\simple_erp\bin\Debug\ECount.dll
+C:\Users\devedu21\Desktop\박송희\씨샵\이동\이동\asp-inventory-web-app\dotNet\simple_erp\bin\Debug\ECount.pdb
+C:\Users\devedu21\Desktop\박송희\씨샵\이동\이동\asp-inventory-web-app\dotNet\simple_erp\obj\Debug\ECount.csprojAssemblyReference.cache
+C:\Users\devedu21\Desktop\박송희\씨샵\이동\이동\asp-inventory-web-app\dotNet\simple_erp\obj\Debug\ECount.csproj.CoreCompileInputs.cache
+C:\Users\devedu21\Desktop\박송희\씨샵\이동\이동\asp-inventory-web-app\dotNet\simple_erp\obj\Debug\ECount.dll
+C:\Users\devedu21\Desktop\박송희\씨샵\이동\이동\asp-inventory-web-app\dotNet\simple_erp\obj\Debug\ECount.pdb

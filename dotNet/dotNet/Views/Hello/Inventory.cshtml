@@ -1,0 +1,50 @@
+﻿
+@{
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<div class="contents">
+    <div class="userInputArea">
+        <div class="userInputInfo">
+            <span>조회기준일</span>
+            <input type="date" />
+            <button>조회</button>
+        </div>
+        <div class="userInputProductInfo">
+            <label for="name">품목명</label>
+            <select name="name">
+                <option value="감자">감자</option>
+                <option value="고구마">고구마</option>
+            </select>
+            <button>조회</button>
+        </div>
+    </div>
+    <div class="productResults viewTable">
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>품목명</th>
+                    <th>타입</th>
+                    <th>수량</th>
+                </tr>
+            <thead/>
+            <tbody>
+                <!-- 줄 시작 -->
+                <tr>
+                    <td>감자</td>
+                    <td>RawMaterial</td>
+                    <td>100</td>
+                </tr>
+                <!--  줄 끝 -->
+                <!-- 줄 시작 -->
+                <tr>
+                    <td>감자</td>
+                    <td>RawMaterial</td>
+                    <td>100</td>
+                </tr>
+                <!--  줄 끝 -->
+            </tbody>
+        </table>
+    </div>
+</div>

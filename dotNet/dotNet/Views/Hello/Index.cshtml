@@ -1,0 +1,26 @@
+﻿@model dotNet.Models.Person
+@{
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+    // Razor 영역 = 자바의 JSP 같은 역할
+    int a = 1;
+    var message = "hello World";
+    var items = new string[] { "item1", "item2", "item3" };
+}
+
+@section Scripts {
+    <script src="~/Scripts/main.js"></script>
+}
+
+<a href="/Hello/SecondPage">두번째페이지로 가기</a>
+
+<p>ViewBag: @ViewBag.Title</p>
+<p>Message: @message</p>
+<div>name: @Model.Name</div>
+<ul>
+    @foreach (var item in items) {
+        <li>@item</li>
+    }
+</ul>
+
