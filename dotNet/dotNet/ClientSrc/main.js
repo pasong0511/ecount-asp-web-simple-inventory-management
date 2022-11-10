@@ -3,17 +3,17 @@ import { createEl } from "./util.js"
 
 
 
-const getProductInfo = () => {
+const createProductInfo = () => {
     const productName = document.querySelector(".userInputInfo input");
-    const productType = document.querySelector(".userInputProductInfo input[name='product-type']:checked");
+    const productType = document.querySelector("input[name='productType']:checked");
 
     const productContent = {
         Name: productName.value,
         Type: productType.value
     }
 
+    console.log(productContent.Name, productContent.Type)
     const res = requestPost("/hello/product", productContent)
-    console.log(productName.value, productType.value)
     console.log("post 결과", res)
 
 }
@@ -31,7 +31,7 @@ const init = () => {
 
     //버튼 눌러서 등록
     const submitBtn = document.querySelector(".submit-btn");
-    submitBtn.addEventListener("click", getProductInfo)
+    submitBtn.addEventListener("click", createProductInfo)
 }
 
 document.addEventListener("DOMContentLoaded", async () => {

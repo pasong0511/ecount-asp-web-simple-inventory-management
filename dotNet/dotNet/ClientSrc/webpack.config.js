@@ -2,7 +2,7 @@ const path = require("path");
 
 module.exports = {
     entry: {
-        product: "./main.js",
+        main: "./main.js",
         purchase: "./purchase.js",
         sale: "./sale.js",
         inventory: "./inventory.js",
