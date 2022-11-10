@@ -1,7 +1,7 @@
-﻿using dotNet.Models;
-using ECount.Enum;
+﻿using ECount.Enum;
 using ECount.Model;
 using ECount.SDK;
+using dotNet.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -153,21 +153,6 @@ namespace dotNet
         }
     }
 
-
-    //public class Product
-    //{
-    //    //상품의 이름과, 프로덕트 타입 객체를 생성한다.
-    //    public string productName;
-    //    public string productType;    //enum으로 만든 타입
-
-    //    //생성자
-    //    public Product() { }
-    //    public Product(string productName, string productType)
-    //    {
-    //        this.productName = productName;
-    //        this.productType = productType;
-    //    }
-    //}
 
     public class Product
     {

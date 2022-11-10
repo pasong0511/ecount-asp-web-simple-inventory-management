@@ -1,44 +1,11 @@
-/*엘리먼트 생성, 클래스 이름 부여*/
-const createEl = (elKind, className = "") => {
-    const el = document.createElement(elKind);
-    el.className = className;
+import { requestGet, requestPost } from "./api.js";
+import { createEl } from "./util.js"
 
-    return el;
-};
 
-const requestGet = async (url) => {
-    const res = await fetch(url)
-
-    if (res.ok) {
-        const json = await res.json()
-        return json
-    }
-
-    throw new Error('요청에 실패함')
-}
-
-const requestPost = async (url, data) => {
-    const postOption = {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data),
-    }
-    const res = await fetch(url, postOption)
-
-    if (res.ok) {
-        console.log("POST 성공")
-        //const json = await res.json()
-        return res.ok;
-    }
-
-    throw new Error('요청에 실패함')
-}
 
 const getProductInfo = () => {
     const productName = document.querySelector(".userInputInfo input");
-    const productType = document.querySelector(".userInputProductInfo input");
+    const productType = document.querySelector(".userInputProductInfo input[name='product-type']:checked");
 
     const productContent = {
         Name: productName.value,

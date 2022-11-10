@@ -1,0 +1,1 @@
+document.addEventListener("DOMContentLoaded",(async()=>{alert("판매")}));

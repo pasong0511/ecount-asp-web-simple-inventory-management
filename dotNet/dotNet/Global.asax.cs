@@ -19,6 +19,7 @@ namespace dotNet
             var PurchaseRoutes = RouteTable.Routes;
             var SaleRoutes = RouteTable.Routes;
             var InventoryRoutes = RouteTable.Routes;
+            var LoginRoutes = RouteTable.Routes;
 
             // 제품 라우팅 등록 -> 추후 클래스로 만들어서 빼기
             routes.MapRoute("Default"
@@ -42,6 +43,12 @@ namespace dotNet
             InventoryRoutes.MapRoute("Inventory"
                 , "{controller}/{action}"
                 , new { controller = "Inventory", action = "Index" } // 라우팅 기본값 부여 가능
+            );
+
+            // 구매 라우팅 등록
+            LoginRoutes.MapRoute("Login"
+                , "{controller}/{action}"
+                , new { controller = "Login", action = "Index" } // 라우팅 기본값 부여 가능
             );
         }
 
