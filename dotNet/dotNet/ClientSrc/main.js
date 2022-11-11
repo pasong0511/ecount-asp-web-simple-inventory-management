@@ -1,5 +1,6 @@
 import { requestGet, requestPost, requestPostToJson, requestDelete } from "./api.js";
 import { createEl, createBtn, get_cookie } from "./util.js";
+import { PRODUCT_TYPE } from "./constants.js";
 
 const viewTableEl = document.querySelector(".productResults tbody");
 
@@ -53,7 +54,12 @@ const requestModifyInfo = async ({ userId, modifyName, modifyType, productKey, m
         Key: productKey,
     };
 
-    const response = await requestPostToJson("/hello/ProductModify", content);
+    const result = await requestPost("/hello/ProductModify", content);
+
+    if (result.ok) {
+        alert("수정 성공");
+        renderProductItems();
+    }
 };
 
 //아이템에서 수정 버튼 클릭
@@ -62,13 +68,15 @@ const modifyProductItem = (productName, productType, productKey, productSafeQuan
 
     //수정 정보 화면에 자동 체크 등록
     modifyInfoRender(productName, productType, productSafeQuantity);
-    const modifyName = document.querySelector(".modify-name").value;
-    const modifyType = document.querySelector(".modify-select input[name='product-type']:checked").value;
-    const modifySafeQuantity = document.querySelector(".modify-safe-quantity").value;
-    const submitBtn = document.querySelector(".modify-select .submit-btn");
 
+    const submitBtn = document.querySelector(".modify-select .submit-btn");
     submitBtn.addEventListener("click", () => {
+        const modifyName = document.querySelector(".modify-name").value;
+        const modifyType = document.querySelector(".modify-select input[name='product-type']:checked").value;
+        const modifySafeQuantity = document.querySelector(".modify-safe-quantity").value;
+
         //쿠키다시한번 체크하는 로직 추가
+        //console.log("수정된 정보 보내기", userId, modifyName, modifyType, productKey, modifySafeQuantity);
 
         requestModifyInfo({
             userId,
@@ -103,7 +111,7 @@ const renderProductItem = ({ userId, productKey, viewTableEl, productName, produ
     itemInfo.setAttribute("data-user", userId);
 
     infoName.innerText = productName;
-    infoType.innerText = productType;
+    infoType.innerText = typeof productType === typeof 0 ? PRODUCT_TYPE[productType] : productType;
     infoSafe.innerText = productSafeQuantity === "" ? 0 : productSafeQuantity;
 
     itemInfo.appendChild(infoName);
@@ -131,8 +139,12 @@ const removeProductItem = async (productKey, userId) => {
         userId: userId,
     };
 
-    const response = await requestDelete("/hello/ProductDelete", content);
-    console.log("삭제후 -> ", response);
+    const res = await requestDelete("/hello/ProductDelete", content);
+
+    if (res.ok) {
+        alert("데이터 삭제 완료");
+    }
+
     renderProductItems();
 };
 
@@ -147,8 +159,7 @@ const renderProductItems = async () => {
 
 const init = () => {
     console.log("자바스크립트 메인");
-    //처음 화면 로딩하면 등록되어있는 데이터를 json으로 가져오자
-    renderProductItems();
+    renderProductItems(); //처음 화면 로딩하면 등록되어있는 데이터를 json으로 가져오자
 
     //버튼 눌러서 등록
     const submitBtn = document.querySelector(".submit-btn");
@@ -158,47 +169,3 @@ const init = () => {
 document.addEventListener("DOMContentLoaded", async () => {
     init();
 });
-
-// npm init
-// npm install webpack webpack-cli --save-dev
-// console.log("hello~");
-
-// document.addEventListener("DOMContentLoaded", async () => {
-//     const response = await fetch("/hello/data");
-//     const list = await response.json();
-//     alert(list);
-
-//     await fetch("/hello/data", {
-//         method: "POST",
-//         headers: {
-//             "Content-Type": "application/json"
-//         },
-//         body: JSON.stringify({ Content: "개발하기 " }),
-//     })
-
-//     const response2 = await fetch("/hello/data");
-//     const list2 = await response2.json();
-//     alert(list2);
-// })
-
-//post 테스트
-// document.addEventListener("DOMContentLoaded", async () => {
-//     const response = await fetch("/hello/data");
-//     const list = await response.json();
-//     alert(list);
-
-//     await fetch("/hello/data", {
-//         method: "POST",
-//         headers: {
-//             "Content-Type": "application/json"
-//         },
-//         body: JSON.stringify({
-//             productName: "박송희",
-//             ProductType: "백수예정자"
-//         }),
-//     })
-
-//     const response2 = await fetch("/hello/data");
-//     const list2 = await response2.json();
-//     alert(list2);
-// })

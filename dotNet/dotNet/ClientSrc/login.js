@@ -1,5 +1,8 @@
-import { requestGet, requestPost } from "./api.js";
-import { createEl, get_cookie, delete_cookie } from "./util.js";
+import { requestGet, requestGetToState, requestPost } from "./api.js";
+import { get_cookie } from "./util.js";
+
+const submitBtn = document.querySelector(".submit-btn");
+const logoutBtn = document.querySelector(".logout-btn");
 
 const submitLogin = async () => {
     const userId = document.querySelector(".user-id");
@@ -11,29 +14,35 @@ const submitLogin = async () => {
     };
 
     const res = await requestPost("/Login/Login", content);
-    console.log("로그인 결과", res);
+    if (res.ok) {
+        alert("로그인 성공");
+    }
 };
 
-const renderProduct = async () => {
-    //then으로 쿠키 들고다니기
-    const productItems = await requestGet("/Login/UserList");
-
-    console.log("들고온 데이터 출력->", productItems);
-    console.log("안녕 쿠키", get_cookie("id"));
+const submitLogout = async () => {
+    if (!get_cookie("id")) {
+        return;
+    }
+    const res = await requestGetToState("/Login/Logout");
+    if (res.ok) {
+        alert("로그아웃 성공");
+    }
 };
+
+//유저 목록 체크용
+const checkUserList = async () => await requestGet("/Login/UserList");
+
+//초기 로그아웃으로 시작용
+const initLogout = async () => await requestGetToState("/Login/Logout");
 
 const init = () => {
-    console.log("자바스크립트 메인");
-    //처음 화면 로딩하면 등록되어있는 데이터를 json으로 가져오자
-    renderProduct();
+    checkUserList();
+    initLogout(); //처음에 로그아웃 하고 시작
 
-    //쿠키 날리기
-    delete_cookie("id");
-    //버튼 눌러서 등록
-    const submitBtn = document.querySelector(".submit-btn");
     submitBtn.addEventListener("click", submitLogin);
+    logoutBtn.addEventListener("click", submitLogout);
 };
 
-document.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener("DOMContentLoaded", () => {
     init();
 });

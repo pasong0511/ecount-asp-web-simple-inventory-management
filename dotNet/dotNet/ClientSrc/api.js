@@ -9,6 +9,16 @@ export const requestGet = async (url) => {
     throw new Error("요청에 실패함");
 };
 
+export const requestGetToState = async (url) => {
+    const res = await fetch(url);
+
+    if (res.ok) {
+        return res;
+    }
+
+    throw new Error("요청에 실패함");
+};
+
 export const requestPost = async (url, data) => {
     const postOption = {
         method: "POST",
@@ -20,7 +30,7 @@ export const requestPost = async (url, data) => {
     const res = await fetch(url, postOption);
 
     if (res.ok) {
-        return res.ok;
+        return res;
     }
 
     throw new Error("요청에 실패함");
@@ -55,9 +65,7 @@ export const requestDelete = async (url, data) => {
     const res = await fetch(url, postOption);
 
     if (res.ok) {
-        return res.ok;
-        //const json = await res.json();
-        //return json;
+        return res;
     }
 
     throw new Error("요청에 실패함");
