@@ -1,60 +1,11 @@
-import { requestGet, requestPost, requestDelete } from "./api.js";
+import { requestGet, requestPost, requestPostToJson, requestDelete } from "./api.js";
 import { createEl, createBtn, get_cookie } from "./util.js";
-
-// //Product.products
-// //Product.length
-
-// class Product {
-//     // static products = [];
-
-//     // static get length() {
-//     //     return this.products.length;
-//     // }
-
-//     // static addProduct(product) {
-//     //     this.products.push(product);
-//     // }
-
-//     constructor() {
-//         this.name = "";
-//         this.type = "RawMaterial";
-//         this.safeQuantity = "0";
-//         this.userId = "";
-
-//         //Product.addProduct(this);
-//     }
-
-//     setUSetId() {
-//         this.userId = get_cookie("id");
-//         return this.userId;
-//     }
-
-//     create(name, type, safeQuantity) {
-//         const productContent = {
-//             Name: this.name,
-//             Type: this.type,
-//             SafeQuantity: this.safeQuantity === "" ? 0 : productSafeQuantity,
-//             UserId: this.userId,
-//         };
-
-//         const res = requestPost("/hello/product", productContent);
-//         console.log("post 결과", res);
-//     }
-
-//     update() {}
-
-//     delete() {}
-
-//     render() {}
-// }
 
 const viewTableEl = document.querySelector(".productResults tbody");
 
 const createProductInfo = async () => {
     const productName = document.querySelector(".userInputInfo input").value;
-    const productType = document.querySelector(
-        "input[name='product-type']:checked"
-    ).value;
+    const productType = document.querySelector("input[name='product-type']:checked").value;
     const productSafeQuantity = document.querySelector(".safe-quantity").value;
     const userId = get_cookie("id");
 
@@ -65,7 +16,7 @@ const createProductInfo = async () => {
         UserId: userId,
     };
 
-    const response = await requestPost("/hello/product", productContent);
+    const response = await requestPostToJson("/hello/product", productContent);
     const productKey = response.key;
     console.log("post 결과", productKey);
 
@@ -76,6 +27,56 @@ const createProductInfo = async () => {
         productName,
         productType,
         productSafeQuantity,
+    });
+};
+
+//수정 버튼 누르면 사용자가 입력했던 정보 가져옴
+const modifyInfoRender = (productName, productType, productSafeQuantity) => {
+    const productNameEl = document.querySelector(".modify-info input");
+    // const productTypeEl = document.querySelectorAll(
+    //     ".modify-select input[name='product-type']"
+    // ).value;
+    const productSafeQuantityEl = document.querySelector(".modify-safe-quantity");
+
+    productNameEl.value = productName;
+    productSafeQuantityEl.value = productSafeQuantity;
+    //productTypeEl[2].value.checked = true;
+};
+
+//서버로 수정 정보 전달
+const requestModifyInfo = async ({ userId, modifyName, modifyType, productKey, modifySafeQuantity }) => {
+    const content = {
+        Name: modifyName,
+        Type: modifyType,
+        SafeQuantity: modifySafeQuantity === "" ? 0 : modifySafeQuantity,
+        UserId: userId,
+        Key: productKey,
+    };
+
+    const response = await requestPostToJson("/hello/ProductModify", content);
+};
+
+//아이템에서 수정 버튼 클릭
+const modifyProductItem = (productName, productType, productKey, productSafeQuantity, userId) => {
+    //console.log(`이름${productName} 타입${productType} 키${productKey} 안전${productSafeQuantity} 아이디${userId}`);
+
+    //수정 정보 화면에 자동 체크 등록
+    modifyInfoRender(productName, productType, productSafeQuantity);
+    const modifyName = document.querySelector(".modify-name").value;
+    const modifyType = document.querySelector(".modify-select input[name='product-type']:checked").value;
+    const modifySafeQuantity = document.querySelector(".modify-safe-quantity").value;
+    const submitBtn = document.querySelector(".modify-select .submit-btn");
+
+    submitBtn.addEventListener("click", () => {
+        //쿠키다시한번 체크하는 로직 추가
+
+        requestModifyInfo({
+            userId,
+            modifyName,
+            modifyType,
+            productKey,
+            modifySafeQuantity,
+        });
     });
 };
 
@@ -90,14 +91,7 @@ const convertParms = ({ Key, Name, Type, userId, SafeQuantity }) => {
     };
 };
 
-const renderProductItem = ({
-    userId,
-    productKey,
-    viewTableEl,
-    productName,
-    productType,
-    productSafeQuantity,
-}) => {
+const renderProductItem = ({ userId, productKey, viewTableEl, productName, productType, productSafeQuantity }) => {
     const itemInfo = createEl("tr", "product-item");
     const infoName = document.createElement("td");
     const infoType = document.createElement("td");
@@ -118,9 +112,12 @@ const renderProductItem = ({
     itemInfo.appendChild(modifyBtn);
     itemInfo.appendChild(removeBtn);
 
-    modifyBtn.addEventListener("click", modifyProductItem);
+    modifyBtn.addEventListener("click", () => {
+        console.log("클릭했을때 넘어온 값", productKey, userId);
+        modifyProductItem(productName, productType, productKey, productSafeQuantity, userId);
+    });
+
     removeBtn.addEventListener("click", (event) => {
-        console.log("삭제버튼", event.target.parentNode);
         event.target.parentNode.parentNode.removeChild(event.target.parentNode);
         removeProductItem(productKey, userId);
     });
@@ -128,13 +125,7 @@ const renderProductItem = ({
     viewTableEl.appendChild(itemInfo);
 };
 
-const modifyProductItem = () => {
-    console.log("수정");
-};
-
 const removeProductItem = async (productKey, userId) => {
-    console.log("삭제", productKey, userId);
-
     const content = {
         Key: productKey,
         userId: userId,
@@ -151,9 +142,7 @@ const renderProductItems = async () => {
     const productItems = await requestGet("/hello/productItems");
 
     console.log("들고온 데이터 출력->", productItems);
-    productItems
-        .map(convertParms)
-        .forEach((item) => renderProductItem({ ...item, viewTableEl }));
+    productItems.map(convertParms).forEach((item) => renderProductItem({ ...item, viewTableEl }));
 };
 
 const init = () => {

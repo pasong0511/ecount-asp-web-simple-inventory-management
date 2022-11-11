@@ -124,13 +124,25 @@ namespace dotNet
             return Json(products, JsonRequestBehavior.AllowGet);
         }
 
-        //나중에 딜리트 메소드로 변경
         [HttpPost]
         public ActionResult ProductDelete(DeleteModel data)
         {
             System.Diagnostics.Debug.WriteLine($"삭제?! -> {data.Key} , {data.userId}");
 
 
+            ProductSDK.Del(data.Key);
+
+
+            //일단 확인용
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
+        }
+
+        [HttpPost]
+        public ActionResult ProductModify(ProductModel data)
+        {
+            System.Diagnostics.Debug.WriteLine($"수정오냐?! -> {data.Name} {data.Type} {data.Key} {data.SafeQuantity} {data.userId}");
+
+            //삭제처리
             ProductSDK.Del(data.Key);
 
 
@@ -175,6 +187,23 @@ namespace dotNet
             this.userId = userId;
         }
     }
+
+    //public class ModifyModel
+    //{
+    //    public string Key { get; set; }
+    //    public string userId { get; set; }
+    //    public string Key { get; set; }
+    //    public string userId { get; set; }
+    //    public string Key { get; set; }
+    //    public string userId { get; set; }
+
+    //    public ModifyModel() { }
+    //    public ModifyModel(string key, string userId)
+    //    {
+    //        this.Key = key;
+    //        this.userId = userId;
+    //    }
+    //}
 
     public class Data
     {

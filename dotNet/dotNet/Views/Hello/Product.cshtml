@@ -51,6 +51,21 @@
                 <!--  줄 끝 -->
             </tbody>
         </table>
-        <div class="temp-modify"></div>
+        <div class="temp-modify" style="background: tomato;">
+            <div class="modify-info">
+                <label for="name">품목명</label>
+                <input type="text" name="name" class="modify-name" required />
+            </div>
+            <div class="modify-select">
+                <div>
+                    <input type="radio" name="product-type" value="RawMaterial" checked="checked"/>원재료
+                    <input type="radio" name="product-type" value="Product" />제품
+                    <input type="radio" name="product-type" value="Goods" />상품
+                </div>
+                <input type="number" class="modify-safe-quantity" placeholder="안전개수">
+                <button class="submit-btn">수정</button>
+            </div>
+            
+        </div>
     </div>
 </div>
