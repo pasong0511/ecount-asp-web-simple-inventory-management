@@ -57,24 +57,31 @@ namespace ECount.Store
             }
         }
 
-        public void Save(T data)
-        {
-            store.Add(data);
-            this.SaveFile();
-        }
-
         private void SaveFile()
         {
             // 밑의 작업을 기다릴 이유가 없음 -> 비동기 처리가 효율적
             // Task = 자바스크립트의 Promise와 같은 역할
             // 서로 다른 쓰레드에서 작업을 하게 만듦
-            Task.Run(() => {
-                using (var fs = File.OpenWrite(this.fileName))
-                {
-                    var formatter = new BinaryFormatter();
-                    formatter.Serialize(fs, store);
-                }
-            });
+            //Task.Run(() => {
+            //    using (var fs = File.OpenWrite(this.fileName))
+            //    {
+            //        var formatter = new BinaryFormatter();
+            //        formatter.Serialize(fs, store);
+            //    }
+            //});
+
+            //비동기 처리하면 Delete -> Create 하면 서로 열고있어서 불가능 -> 동기로 변경
+            using (var fs = File.OpenWrite(this.fileName))
+            {
+                var formatter = new BinaryFormatter();
+                formatter.Serialize(fs, store);
+            }
+        }
+
+        public void Save(T data)
+        {
+            store.Add(data);
+            this.SaveFile();
         }
 
         public void Delete(Predicate<T> match) {

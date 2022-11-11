@@ -23,13 +23,24 @@ namespace ECount.Model
 
 
         public ProductModel() { }
-        //생성자
+        //생성용 생성자
         public ProductModel(string name, ProductType type, int safeQuantity, string userId)
         {
             this.Name = name;
             this.Type = type;
 
             this.Key = this.createKey();        //키 생성 함수
+            this.SafeQuantity = safeQuantity;
+            this.userId = userId;
+        }
+
+        //수정용 생성자 -> key 추가
+        public ProductModel(string name, ProductType type, string key, int safeQuantity, string userId)
+        {
+            this.Name = name;
+            this.Type = type;
+
+            this.Key = key;        //키 생성 함수
             this.SafeQuantity = safeQuantity;
             this.userId = userId;
         }
@@ -46,7 +57,7 @@ namespace ECount.Model
             return this.Name == product.Name;
         }
 
-        //키생성 함수
+        //키생성 함수 -> 해시함수
         private string createKey()
         {
             return Guid.NewGuid().ToString();

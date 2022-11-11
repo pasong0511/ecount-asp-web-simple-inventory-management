@@ -25,15 +25,24 @@ namespace dotNet
         [HttpPost]
         public ActionResult Login(LoginModel login)
         {
-            System.Diagnostics.Debug.WriteLine($"힘들다");
             if (login != null) {
-                System.Diagnostics.Debug.WriteLine($"아이디 -> {login.Id}");
-                System.Diagnostics.Debug.WriteLine($"비밀번호 -> {login.Password}");
                 LoginSDK.Create(login.Id, login.Password);
             }
 
             HttpCookie cookie = new HttpCookie("id",login.Id.ToString());
+            cookie.Expires = DateTime.Now.AddMinutes(10d);
             Response.Cookies.Add(cookie);
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
+        }
+
+        //로그아웃
+        [HttpGet]
+        public ActionResult Logout()
+        {
+            if (Request.Cookies["id"] != null)
+            {
+                Response.Cookies["id"].Expires = DateTime.Now.AddDays(-1);
+            }
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
@@ -43,7 +52,6 @@ namespace dotNet
         {
             List<LoginModel> userList = new List<LoginModel>();
             userList = LoginSDK.Get();
-            System.Diagnostics.Debug.WriteLine($"출력 -> {userList}");
             return Json(userList, JsonRequestBehavior.AllowGet);
         }
     }

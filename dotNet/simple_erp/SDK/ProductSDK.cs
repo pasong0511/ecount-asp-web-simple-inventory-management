@@ -26,6 +26,13 @@ namespace ECount.SDK
             return ProductDac.Create(name, type, safeQuantity, userId);
         }
 
+        //상품의 name, type을 정의 받으면 ProductDac에 상품 정보 생성 요청
+        static public void Modify(string name, ProductType type, string key, int safeQuantity, string userId)
+        {
+            //사용자 검증 로직 추가 필요
+            ProductDac.Modify(name, type, key, safeQuantity, userId);
+        }
+
         //아무것도 넘기지 않고 GET 요청을 통해 ProductModel : Name, ProductType 반환 요청
         static public List<ProductModel> Get()
         {
@@ -38,11 +45,11 @@ namespace ECount.SDK
             return ProductDac.Get(name);
         }
 
-        //키 넘겨서 특정 상품 꺼내오기
+        /*//키 넘겨서 특정 상품 꺼내오기
         static public ProductModel GetBykey(string key)
         {
-            return ProductDac.Get(key);
-        }
+            return ProductDac.GetBykey(key);
+        }*/
 
         static public void Del(string key) {
             ProductDac.Del(key);

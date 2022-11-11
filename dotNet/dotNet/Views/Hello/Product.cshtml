@@ -9,12 +9,12 @@
 }
 
 <div class="contents">
-    <div class="userInputArea">
+    <div class="userInputArea" style="display:flex">
         <div class="userInputInfo">
             <label for="name">품목명</label>
             <input type="text" name="name" required />
         </div>
-        <div class="userInputProductInfo">
+        <div class="userInputProductInfo" style="display:flex">
             <div>
                 <input type="radio" name="product-type" value="RawMaterial" checked="checked"/>원재료
                 <input type="radio" name="product-type" value="Product" />제품
@@ -51,12 +51,13 @@
                 <!--  줄 끝 -->
             </tbody>
         </table>
-        <div class="temp-modify" style="background: tomato;">
+        <div>수정</div>
+        <div class="temp-modify" style="display:flex">
             <div class="modify-info">
                 <label for="name">품목명</label>
                 <input type="text" name="name" class="modify-name" required />
             </div>
-            <div class="modify-select">
+            <div class="modify-select" style="display:flex">
                 <div>
                     <input type="radio" name="product-type" value="RawMaterial" checked="checked"/>원재료
                     <input type="radio" name="product-type" value="Product" />제품

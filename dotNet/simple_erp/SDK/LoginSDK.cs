@@ -16,8 +16,6 @@ namespace ECount.SDK
         {
             var prevUser = Get();
 
-            //추후 회원가입 체크 예정
-
             System.Diagnostics.Debug.WriteLine($"생성 -> {id} {password}");
 
             LoginDac.Create(id, password);

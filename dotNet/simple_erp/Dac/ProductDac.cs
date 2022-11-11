@@ -26,6 +26,14 @@ namespace ECount.Dac
             return product.Key;
         }
 
+        //프로덕트 모델 수정
+        static public void Modify(string name, ProductType type, string key, int safeQuantity, string userId)
+        {
+            //이름과 타입을 넘겨줘서 생성된 ProductModel를 리스트에 담는다.
+            var product = new ProductModel(name, type, key, safeQuantity, userId);
+            store.Save(product);
+        }
+
         //프로덕트 모델 겟
         static public List<ProductModel> Get()
         {
@@ -48,10 +56,14 @@ namespace ECount.Dac
         static public void Del(string key)
         {
             store.Delete(x => x.Key == key);
-           
-
-            // return store.GetAll(x => x.Key != key);
         }
+
+        
+
+        /*static public ProductModel GetBykey(string key)
+        {
+            return store.Get(x => x.Key == key);
+        }*/
 
         //public ProductModel GetByType(ProductType type)
         //{

@@ -133,6 +133,7 @@ namespace dotNet
             ProductSDK.Del(data.Key);
 
 
+
             //일단 확인용
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
@@ -142,9 +143,11 @@ namespace dotNet
         {
             System.Diagnostics.Debug.WriteLine($"수정오냐?! -> {data.Name} {data.Type} {data.Key} {data.SafeQuantity} {data.userId}");
 
-            //삭제처리
+            //1. 삭제처리
             ProductSDK.Del(data.Key);
-
+            
+            //2. 다시 create
+            ProductSDK.Modify(data.Name, data.Type, data.Key, data.SafeQuantity, data.userId);
 
             //일단 확인용
             return new HttpStatusCodeResult(HttpStatusCode.OK);
