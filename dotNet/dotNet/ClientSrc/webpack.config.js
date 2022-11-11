@@ -3,6 +3,7 @@ const path = require("path");
 module.exports = {
     mode: "development",
     entry: {
+        index: "./index.js",
         main: "./main.js",
         purchase: "./purchase.js",
         sale: "./sale.js",

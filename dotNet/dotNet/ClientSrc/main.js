@@ -18,8 +18,11 @@ const createProductInfo = async () => {
     };
 
     const response = await requestPostToJson("/hello/product", productContent);
+
+    if (response) {
+        alert("품목이 등록되었습니다.");
+    }
     const productKey = response.key;
-    console.log("post 결과", productKey);
 
     renderProductItem({
         userId,
@@ -72,7 +75,7 @@ const modifyProductItem = (productName, productType, productKey, productSafeQuan
     const submitBtn = document.querySelector(".modify-select .submit-btn");
     submitBtn.addEventListener("click", () => {
         const modifyName = document.querySelector(".modify-name").value;
-        const modifyType = document.querySelector(".modify-select input[name='product-type']:checked").value;
+        const modifyType = document.querySelector("input[name='modify-type']:checked").value;
         const modifySafeQuantity = document.querySelector(".modify-safe-quantity").value;
 
         //쿠키다시한번 체크하는 로직 추가
@@ -160,6 +163,11 @@ const renderProductItems = async () => {
 const init = () => {
     console.log("자바스크립트 메인");
     renderProductItems(); //처음 화면 로딩하면 등록되어있는 데이터를 json으로 가져오자
+
+    if (!get_cookie("id")) {
+        alert("로그인 부탁드립니다");
+        return;
+    }
 
     //버튼 눌러서 등록
     const submitBtn = document.querySelector(".submit-btn");
