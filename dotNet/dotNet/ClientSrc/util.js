@@ -21,6 +21,15 @@ export const get_cookie = (name) => {
 
 //쿠키 삭제하는 함수
 export const delete_cookie = (name) => {
-    document.cookie =
-        encodeURIComponent(name) + "=; expires=Thu, 01 JAN 1999 00:00:10 GMT";
+    document.cookie = encodeURIComponent(name) + "=; expires=Thu, 01 JAN 1999 00:00:10 GMT";
 };
+
+export function cutDateFull(date) {
+    const [year, month, day] = date.split("-");
+    return [Number(year), Number(month), Number(day)];
+}
+
+export function cutDateMonth(date) {
+    const [year, month] = date.split("-");
+    return [Number(year), Number(month)];
+}

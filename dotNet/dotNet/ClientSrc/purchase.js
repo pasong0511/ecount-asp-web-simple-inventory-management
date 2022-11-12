@@ -1,52 +1,64 @@
+import { requestGet, requestPost, requestPostToJson, requestDelete } from "./api.js";
+import { createEl, createBtn, get_cookie } from "./util.js";
 
-import { requestGet, requestPost } from "./api.js";
-import { createEl } from "./util.js"
+const viewTableEl = document.querySelector(".product-results tbody");
 
+const requestPurchase = async ({ clientName, productName, productQuantity, productDate, userId }) => {
+    const content = {
+        ClientName: clientName,
+        ProductName: productName,
+        Quantity: productQuantity,
+        DateTime: productDate.toString(),
+        UserId: userId,
+    };
+    console.log(content);
+    const res = await requestPostToJson("/Purchase/Purchase", content);
 
+    if (res) {
+        console.log(res);
+        alert("상품이 등록되었습니다.");
+    }
 
-const getPurchaseInfo = () => {
-  const purchaseDate = document.querySelector(
-    ".userInputProductInfo input[type='date']"
-  );
-  const purchaseName = document.querySelector(
-    ".userInputProductInfo select"
-  )
-  const purchaseQuantity = document.querySelector(
-    ".userInputProductInfo input[type='number']"
-  );
+    const clientKey = res.key;
+    if (!clientKey) {
+        alert("상품 등록이 실패했습니다.");
+    }
 
-  console.log("날짜 : ", purchaseDate.value)
-  console.log("선택 : ", purchaseName.options[purchaseName.selectedIndex].value)
-  console.log("수량 : ", purchaseQuantity.value)
+    return clientKey;
+};
 
-  //const productName = document.querySelector(".userInputInfo input");
-  //const productType = document.querySelector(".userInputProductInfo input");
+const createClientInfo = () => {
+    const clientName = document.querySelector(".purchase-client-name").value;
+    const productName = document.querySelector(".purchase-product-name").value;
+    const productQuantity = document.querySelector(".purchase-product-quantity").value;
+    const productDate = document.querySelector(".purchase-product-date").value;
 
-  // const productContent = {
-  //   Name: productName.value,
-  //   Type: productType.value
-  // }
+    const userId = get_cookie("id");
+    if (!userId) {
+        alert("로그인 부탁드립니다");
+        return;
+    }
 
-  // const res = requestPost("/purchase/purchase", productContent)
-  // console.log(productName.value, productType.value)
-  // console.log("post 결과", res)
-
-}
-
-const renderProduct = async () => {
-  const productItems = await requestGet("/purchase/purchase");
-
-  console.log("들고온 데이터 출력->", productItems)
-}
+    const clientKey = requestPurchase({ clientName, productName, productQuantity, productDate, userId });
+    // renderClientItem({
+    //     clientName,
+    //     productName,
+    //     productQuantity,
+    //     productDate,
+    //     userId,
+    //     clientKey
+    // });
+};
 
 const init = () => {
-  alert("구매");
+    const nowDate = document.querySelector(".purchase-product-date");
+    nowDate.value = new Date().toISOString().substring(0, 10);
 
-  //버튼 눌러서 등록
-  const submitBtn = document.querySelector(".submit-btn");
-  submitBtn.addEventListener("click", getPurchaseInfo)
-}
+    //버튼 눌러서 등록
+    const submitBtn = document.querySelector(".submit-btn");
+    submitBtn.addEventListener("click", createClientInfo);
+};
 
-document.addEventListener("DOMContentLoaded", async () => {
-  init();
-})
+document.addEventListener("DOMContentLoaded", () => {
+    init();
+});

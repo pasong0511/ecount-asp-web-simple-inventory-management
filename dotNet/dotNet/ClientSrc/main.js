@@ -3,6 +3,15 @@ import { createEl, createBtn, get_cookie } from "./util.js";
 import { PRODUCT_TYPE } from "./constants.js";
 
 const viewTableEl = document.querySelector(".productResults tbody");
+const convertParms = ({ Key, Name, Type, userId, SafeQuantity }) => {
+    return {
+        userId,
+        productKey: Key,
+        productName: Name,
+        productType: Type,
+        productSafeQuantity: SafeQuantity,
+    };
+};
 
 const createProductInfo = async () => {
     const productName = document.querySelector(".userInputInfo input").value;
@@ -10,20 +19,28 @@ const createProductInfo = async () => {
     const productSafeQuantity = document.querySelector(".safe-quantity").value;
     const userId = get_cookie("id");
 
+    if (!userId) {
+        alert("로그인 부탁드립니다");
+        return;
+    }
+
     const productContent = {
         Name: productName,
         Type: productType,
         SafeQuantity: productSafeQuantity === "" ? 0 : productSafeQuantity,
-        UserId: userId,
+        UserId: userId, //<-체크
     };
 
-    const response = await requestPostToJson("/hello/product", productContent);
+    const res = await requestPostToJson("/hello/product", productContent);
 
-    if (response) {
+    if (res) {
         alert("품목이 등록되었습니다.");
     }
-    const productKey = response.key;
 
+    const productKey = res.key;
+    if (!productKey) {
+        alert("상품 등록이 실패했습니다.");
+    }
     renderProductItem({
         userId,
         productKey,
@@ -37,14 +54,10 @@ const createProductInfo = async () => {
 //수정 버튼 누르면 사용자가 입력했던 정보 가져옴
 const modifyInfoRender = (productName, productType, productSafeQuantity) => {
     const productNameEl = document.querySelector(".modify-info input");
-    // const productTypeEl = document.querySelectorAll(
-    //     ".modify-select input[name='product-type']"
-    // ).value;
     const productSafeQuantityEl = document.querySelector(".modify-safe-quantity");
 
     productNameEl.value = productName;
     productSafeQuantityEl.value = productSafeQuantity;
-    //productTypeEl[2].value.checked = true;
 };
 
 //서버로 수정 정보 전달
@@ -67,9 +80,6 @@ const requestModifyInfo = async ({ userId, modifyName, modifyType, productKey, m
 
 //아이템에서 수정 버튼 클릭
 const modifyProductItem = (productName, productType, productKey, productSafeQuantity, userId) => {
-    //console.log(`이름${productName} 타입${productType} 키${productKey} 안전${productSafeQuantity} 아이디${userId}`);
-
-    //수정 정보 화면에 자동 체크 등록
     modifyInfoRender(productName, productType, productSafeQuantity);
 
     const submitBtn = document.querySelector(".modify-select .submit-btn");
@@ -77,9 +87,6 @@ const modifyProductItem = (productName, productType, productKey, productSafeQuan
         const modifyName = document.querySelector(".modify-name").value;
         const modifyType = document.querySelector("input[name='modify-type']:checked").value;
         const modifySafeQuantity = document.querySelector(".modify-safe-quantity").value;
-
-        //쿠키다시한번 체크하는 로직 추가
-        //console.log("수정된 정보 보내기", userId, modifyName, modifyType, productKey, modifySafeQuantity);
 
         requestModifyInfo({
             userId,
@@ -89,17 +96,6 @@ const modifyProductItem = (productName, productType, productKey, productSafeQuan
             modifySafeQuantity,
         });
     });
-};
-
-//매개변수 맞춰주기
-const convertParms = ({ Key, Name, Type, userId, SafeQuantity }) => {
-    return {
-        userId,
-        productKey: Key,
-        productName: Name,
-        productType: Type,
-        productSafeQuantity: SafeQuantity,
-    };
 };
 
 const renderProductItem = ({ userId, productKey, viewTableEl, productName, productType, productSafeQuantity }) => {
@@ -141,7 +137,6 @@ const removeProductItem = async (productKey, userId) => {
         Key: productKey,
         userId: userId,
     };
-
     const res = await requestDelete("/hello/ProductDelete", content);
 
     if (res.ok) {
@@ -153,23 +148,20 @@ const removeProductItem = async (productKey, userId) => {
 
 const renderProductItems = async () => {
     viewTableEl.innerText = "";
-
     const productItems = await requestGet("/hello/productItems");
 
-    console.log("들고온 데이터 출력->", productItems);
+    console.log("데이터 목록 출력->", productItems);
     productItems.map(convertParms).forEach((item) => renderProductItem({ ...item, viewTableEl }));
 };
 
 const init = () => {
-    console.log("자바스크립트 메인");
-    renderProductItems(); //처음 화면 로딩하면 등록되어있는 데이터를 json으로 가져오자
+    renderProductItems();
 
     if (!get_cookie("id")) {
         alert("로그인 부탁드립니다");
         return;
     }
 
-    //버튼 눌러서 등록
     const submitBtn = document.querySelector(".submit-btn");
     submitBtn.addEventListener("click", createProductInfo);
 };

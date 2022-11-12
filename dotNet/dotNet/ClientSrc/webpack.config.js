@@ -9,6 +9,7 @@ module.exports = {
         sale: "./sale.js",
         inventory: "./inventory.js",
         login: "./login.js",
+        client: "./client.js",
     },
     output: {
         path: path.join(__dirname, "../Scripts"),
