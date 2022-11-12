@@ -33,6 +33,28 @@ namespace ECount.SDK
             ProductDac.Modify(name, type, key, safeQuantity, userId);
         }
 
+        //userid에 해당하는 등록정보 딕셔너리로 생성 key : userid, value : name
+        static public Dictionary<string, List<string>> GetUserProductLists(string userId) {
+
+            var productInfo = new Dictionary<string, List<string>>();
+            List<string> list = new List<string>();
+
+            var products = Get();
+
+            foreach (var product in products)
+            {
+                //유저 아이디가 같은 경우 -> 프로덕트 이름 리스트에 넣기
+                if (product.userId == userId)
+                {
+                    list.Add(product.Name);
+                }
+            }
+
+            productInfo.Add(userId, list);
+
+            return productInfo;
+        }
+
         //아무것도 넘기지 않고 GET 요청을 통해 ProductModel : Name, ProductType 반환 요청
         static public List<ProductModel> Get()
         {

@@ -11,9 +11,6 @@ namespace ECount.Dac
 {
     class ProductDac
     {
-        //Name, ProductType 저장
-        //static IStore<ProductModel> store = new InMemoryStore<ProductModel>();
-        //static IStore<ProductModel> store = new FileStore<ProductModel>("product");   //메모리 저장
         static IStore<ProductModel> store = StoreResolver.GetStore<ProductModel>();
 
         //프로덕트 모델 생성

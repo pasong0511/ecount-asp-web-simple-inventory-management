@@ -10,19 +10,22 @@ namespace ECount.SDK
 {
     public class PurchaseSDK
     {
-        //상품 이름, 구매 개수, 구매 시간으로 구매정보 생성
-        static public void Create(string productName, int quantity, DateTime dateTime)
+        //key 빼고 다 넘겨줌
+        static public string Create(string clientName, string productName, int quantity, DateTime dateTime, string userId)
         {
-            //1. 상품 정보에 있는지 먼저 확인하기
-            var product = ProductDac.Get(productName);
+            var client = ClientDac.Get(clientName);    //1. 고객에 있는지 확인
+            var product = ProductDac.Get(productName);  //2. 상품에 있는지 확인
 
-            //2. 상품이 등록되어있지 않으면 버리기
+            if (client == null)
+            {
+                throw new Exception($"고객이 존재하지 않습니다: {clientName}");   
+            }
+
             if (product == null) {
                 throw new Exception($"품목이 존재하지 않습니다: {productName}");
             }
 
-            //3. 상품이 이미 등록되어 있는 경우 구매정보 생성
-            PurchaseDac.Create(product, quantity, dateTime);
+            return PurchaseDac.Create(client, product, quantity, dateTime, userId);        //2. 상품이 이미 등록되어 있는 경우 구매정보 생성
         }
 
         //구매 생성 정보 가져오기
