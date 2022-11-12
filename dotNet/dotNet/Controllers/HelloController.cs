@@ -12,7 +12,6 @@ using System.Web.Mvc;
 
 namespace dotNet
 {
-    // controller : *Controller로 작성된 컨트롤러는 url에 ~/* 경로를 통해 접근가능 
     public class HelloController : Controller
     {
         static List<Data> list = new List<Data>();
@@ -20,28 +19,13 @@ namespace dotNet
         // action
         public ActionResult Index()
         {
-            // return type string
-            //return "hello~"; 
-            /*if (!System.IO.File.Exists("testFile.txt")) {
-                System.IO.File.Create("testFile.txt");
-            }*/
-
-            // return type ActionResult
-            //return Content("hello~");
             ViewBag.Title = "제목입니다";
             return View(new Person("차은우", 24));
-
-            // View탐색 규칙
-            // 기본탐색: /Views? > /컨트롤러명? > /액션명.cshtml
-        }
-
-        public ActionResult SecondPage()
-        {
-            return View();
         }
 
         public ActionResult Product()
         {
+            ViewBag.Test = ProductSDK.Get();
             return View();
         }
 
@@ -103,15 +87,13 @@ namespace dotNet
             var productInfo = new Dictionary<string, string>();
 
             if (product != null) {
-
                 string key = ProductSDK.Create(product.Name, product.Type, product.SafeQuantity, product.userId);
-                System.Diagnostics.Debug.WriteLine($"생성 -> {product.Name} {product.Type} {product.SafeQuantity} {product.userId}");
+                System.Diagnostics.Debug.WriteLine($"상품 생성 -> {product.Name} {product.Type} {product.SafeQuantity} {product.userId}");
                 System.Diagnostics.Debug.WriteLine($"키 생성 -> {key}");
                 productInfo.Add("key", key);
             }
 
             return Json(productInfo, JsonRequestBehavior.AllowGet);
-            //return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
         //Product 들어있는 정보 다 줌
@@ -127,14 +109,7 @@ namespace dotNet
         [HttpPost]
         public ActionResult ProductDelete(DeleteModel data)
         {
-            System.Diagnostics.Debug.WriteLine($"삭제?! -> {data.Key} , {data.userId}");
-
-
             ProductSDK.Del(data.Key);
-
-
-
-            //일단 확인용
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
@@ -142,15 +117,19 @@ namespace dotNet
         public ActionResult ProductModify(ProductModel data)
         {
             System.Diagnostics.Debug.WriteLine($"수정오냐?! -> {data.Name} {data.Type} {data.Key} {data.SafeQuantity} {data.userId}");
-
-            //1. 삭제처리
             ProductSDK.Del(data.Key);
-            
-            //2. 다시 create
             ProductSDK.Modify(data.Name, data.Type, data.Key, data.SafeQuantity, data.userId);
 
-            //일단 확인용
             return new HttpStatusCodeResult(HttpStatusCode.OK);
+        }
+
+        //*************************** 조회 ***************************
+        //등록된 id별 고객명 반환
+        [HttpGet]
+        public ActionResult ProductLists()
+        {    //매개변수 -> string id
+            var productNameList = ProductSDK.GetUserProductLists("test");
+            return Json(productNameList, JsonRequestBehavior.AllowGet);
         }
 
         //--> dlProduct에 들어있는 정보 하나만 줌
@@ -190,23 +169,6 @@ namespace dotNet
             this.userId = userId;
         }
     }
-
-    //public class ModifyModel
-    //{
-    //    public string Key { get; set; }
-    //    public string userId { get; set; }
-    //    public string Key { get; set; }
-    //    public string userId { get; set; }
-    //    public string Key { get; set; }
-    //    public string userId { get; set; }
-
-    //    public ModifyModel() { }
-    //    public ModifyModel(string key, string userId)
-    //    {
-    //        this.Key = key;
-    //        this.userId = userId;
-    //    }
-    //}
 
     public class Data
     {

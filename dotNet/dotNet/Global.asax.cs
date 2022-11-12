@@ -20,35 +20,37 @@ namespace dotNet
             var SaleRoutes = RouteTable.Routes;
             var InventoryRoutes = RouteTable.Routes;
             var LoginRoutes = RouteTable.Routes;
+            var ClientRoutes = RouteTable.Routes;
 
             // 제품 라우팅 등록 -> 추후 클래스로 만들어서 빼기
             routes.MapRoute("Default"
-                , "{controller}/{action}"
-                , new { controller = "Hello", action ="Index"} // 라우팅 기본값 부여 가능
+                , "{controller}/{action}/{id}"
+                , new { controller = "Hello", action ="Index", id = UrlParameter.Optional } // 라우팅 기본값 부여 가능
             );
 
-            // 구매 라우팅 등록
             PurchaseRoutes.MapRoute("Purchase"
-                , "{controller}/{action}"
-                , new { controller = "Purchase", action = "Index" } // 라우팅 기본값 부여 가능
+                , "{controller}/{action}/{id}"
+                , new { controller = "Purchase", action = "Index", id = UrlParameter.Optional } // 라우팅 기본값 부여 가능
             );
 
-            // 구매 라우팅 등록
             SaleRoutes.MapRoute("Sale"
-                , "{controller}/{action}"
-                , new { controller = "Sale", action = "Index" } // 라우팅 기본값 부여 가능
+                , "{controller}/{action}/{id}"
+                , new { controller = "Sale", action = "Index", id = UrlParameter.Optional } // 라우팅 기본값 부여 가능
             );
 
-            // 구매 라우팅 등록
             InventoryRoutes.MapRoute("Inventory"
-                , "{controller}/{action}"
-                , new { controller = "Inventory", action = "Index" } // 라우팅 기본값 부여 가능
+                , "{controller}/{action}/{id}"
+                , new { controller = "Inventory", action = "Index", id = UrlParameter.Optional } // 라우팅 기본값 부여 가능
             );
 
-            // 구매 라우팅 등록
             LoginRoutes.MapRoute("Login"
-                , "{controller}/{action}"
-                , new { controller = "Login", action = "Index" } // 라우팅 기본값 부여 가능
+                , "{controller}/{action}/{id}"
+                , new { controller = "Login", action = "Index", id = UrlParameter.Optional } // 라우팅 기본값 부여 가능
+            );
+
+            ClientRoutes.MapRoute("Client"
+                , "{controller}/{action}/{id}"
+                , new { controller = "Client", action = "Index", id = UrlParameter.Optional } // 라우팅 기본값 부여 가능
             );
         }
 

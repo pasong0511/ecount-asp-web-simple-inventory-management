@@ -29,6 +29,7 @@ namespace dotNet
                 LoginSDK.Create(login.Id, login.Password);
             }
 
+            System.Diagnostics.Debug.WriteLine($"사용자 생성 -> {login.Id},{login.Password}");
             HttpCookie cookie = new HttpCookie("id",login.Id.ToString());
             cookie.Expires = DateTime.Now.AddMinutes(10d);
             Response.Cookies.Add(cookie);

@@ -8,16 +8,16 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using ECount.Util;
 
 namespace dotNet
 {
     public class InventoryController : Controller
     {
 
-        static List<Data> list = new List<Data>();
-
         public ActionResult Inventory()
         {
+
             return View();
         }
 

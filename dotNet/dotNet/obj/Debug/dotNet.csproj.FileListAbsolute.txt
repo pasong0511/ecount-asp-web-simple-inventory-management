@@ -379,3 +379,14 @@ C:\Users\psh66\Desktop\씨샵\씨샵과제진짜필요한거만모음\ecount-asp
 C:\Users\psh66\Desktop\씨샵\씨샵과제진짜필요한거만모음\ecount-asp-web-simple-inventory-management\dotNet\dotNet\obj\Debug\dotNet.csproj.CopyComplete
 C:\Users\psh66\Desktop\씨샵\씨샵과제진짜필요한거만모음\ecount-asp-web-simple-inventory-management\dotNet\dotNet\obj\Debug\dotNet.dll
 C:\Users\psh66\Desktop\씨샵\씨샵과제진짜필요한거만모음\ecount-asp-web-simple-inventory-management\dotNet\dotNet\obj\Debug\dotNet.pdb
+C:\Users\psh66\Desktop\씨샵\씨샵과제진짜필요한거만모음\ecount-asp-web-simple-inventory-management\dotNet\dotNet\bin\Newtonsoft.Json.dll
+C:\Users\psh66\Desktop\씨샵\씨샵과제진짜필요한거만모음\ecount-asp-web-simple-inventory-management\dotNet\dotNet\bin\System.Net.Http.Formatting.dll
+C:\Users\psh66\Desktop\씨샵\씨샵과제진짜필요한거만모음\ecount-asp-web-simple-inventory-management\dotNet\dotNet\bin\System.Web.Http.dll
+C:\Users\psh66\Desktop\씨샵\씨샵과제진짜필요한거만모음\ecount-asp-web-simple-inventory-management\dotNet\dotNet\bin\System.Web.Http.WebHost.dll
+C:\Users\psh66\Desktop\씨샵\씨샵과제진짜필요한거만모음\ecount-asp-web-simple-inventory-management\dotNet\dotNet\bin\Newtonsoft.Json.xml
+C:\Users\psh66\Desktop\씨샵\씨샵과제진짜필요한거만모음\ecount-asp-web-simple-inventory-management\dotNet\dotNet\bin\System.Net.Http.Formatting.xml
+C:\Users\psh66\Desktop\씨샵\씨샵과제진짜필요한거만모음\ecount-asp-web-simple-inventory-management\dotNet\dotNet\bin\System.Web.Http.xml
+C:\Users\psh66\Desktop\씨샵\씨샵과제진짜필요한거만모음\ecount-asp-web-simple-inventory-management\dotNet\dotNet\bin\System.Web.Http.WebHost.xml
+C:\Users\psh66\Desktop\씨샵\씨샵과제진짜필요한거만모음\ecount-asp-web-simple-inventory-management\dotNet\dotNet\bin\ko\System.Net.Http.Formatting.resources.dll
+C:\Users\psh66\Desktop\씨샵\씨샵과제진짜필요한거만모음\ecount-asp-web-simple-inventory-management\dotNet\dotNet\bin\ko\System.Web.Http.resources.dll
+C:\Users\psh66\Desktop\씨샵\씨샵과제진짜필요한거만모음\ecount-asp-web-simple-inventory-management\dotNet\dotNet\bin\ko\System.Web.Http.WebHost.resources.dll

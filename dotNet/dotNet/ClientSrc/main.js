@@ -166,6 +166,6 @@ const init = () => {
     submitBtn.addEventListener("click", createProductInfo);
 };
 
-document.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener("DOMContentLoaded", () => {
     init();
 });
