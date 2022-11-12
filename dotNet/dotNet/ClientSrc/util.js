@@ -24,12 +24,17 @@ export const delete_cookie = (name) => {
     document.cookie = encodeURIComponent(name) + "=; expires=Thu, 01 JAN 1999 00:00:10 GMT";
 };
 
-export function cutDateFull(date) {
+export const cutDateFull = (date) => {
     const [year, month, day] = date.split("-");
     return [Number(year), Number(month), Number(day)];
-}
+};
 
-export function cutDateMonth(date) {
+export const cutDateMonth = (date) => {
     const [year, month] = date.split("-");
     return [Number(year), Number(month)];
-}
+};
+
+//#C DateTime 객체로 넘어온 데이터 변환
+export const formatDate = (date) => {
+    return new Date(parseInt(/-?\d+/.exec(date)[0])).toLocaleDateString();
+};
