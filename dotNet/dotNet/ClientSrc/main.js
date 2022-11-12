@@ -3,6 +3,7 @@ import { createEl, createBtn, get_cookie } from "./util.js";
 import { PRODUCT_TYPE } from "./constants.js";
 
 const viewTableEl = document.querySelector(".productResults tbody");
+
 const convertParms = ({ Key, Name, Type, userId, SafeQuantity }) => {
     return {
         userId,
@@ -83,7 +84,9 @@ const modifyProductItem = (productName, productType, productKey, productSafeQuan
     modifyInfoRender(productName, productType, productSafeQuantity);
 
     const submitBtn = document.querySelector(".modify-select .submit-btn");
-    submitBtn.addEventListener("click", () => {
+
+    // 버그수정 -> 기존 이벤트 등록을 함수로 저장
+    const handleClick = () => {
         const modifyName = document.querySelector(".modify-name").value;
         const modifyType = document.querySelector("input[name='modify-type']:checked").value;
         const modifySafeQuantity = document.querySelector(".modify-safe-quantity").value;
@@ -95,8 +98,29 @@ const modifyProductItem = (productName, productType, productKey, productSafeQuan
             productKey,
             modifySafeQuantity,
         });
-    });
+    };
+
+    //버그 수정 -> 이벤트를 등록하고 이벤트 제거 함수를 반환
+    submitBtn.addEventListener("click", handleClick);
+    return () => submitBtn.removeEventListener("click", handleClick);
 };
+
+const removeProductItem = async (productKey, userId) => {
+    const content = {
+        Key: productKey,
+        userId: userId,
+    };
+    const res = await requestDelete("/hello/ProductDelete", content);
+
+    if (res.ok) {
+        alert("데이터 삭제 완료");
+    }
+
+    renderProductItems();
+};
+
+// 버그수정 -> removeEvent를 임시로 저장할 공간
+let prevModifyEvent = null;
 
 const renderProductItem = ({ userId, productKey, viewTableEl, productName, productType, productSafeQuantity }) => {
     const itemInfo = createEl("tr", "product-item");
@@ -119,9 +143,15 @@ const renderProductItem = ({ userId, productKey, viewTableEl, productName, produ
     itemInfo.appendChild(modifyBtn);
     itemInfo.appendChild(removeBtn);
 
+    //버그수정 -> removeEvent가 저장되어있으면 실행
     modifyBtn.addEventListener("click", () => {
+        if (prevModifyEvent) {
+            prevModifyEvent();
+        }
         console.log("클릭했을때 넘어온 값", productKey, userId);
-        modifyProductItem(productName, productType, productKey, productSafeQuantity, userId);
+
+        //버그수정 -> removeEvent를 임시로 저장
+        prevModifyEvent = modifyProductItem(productName, productType, productKey, productSafeQuantity, userId);
     });
 
     removeBtn.addEventListener("click", (event) => {
@@ -130,20 +160,6 @@ const renderProductItem = ({ userId, productKey, viewTableEl, productName, produ
     });
 
     viewTableEl.appendChild(itemInfo);
-};
-
-const removeProductItem = async (productKey, userId) => {
-    const content = {
-        Key: productKey,
-        userId: userId,
-    };
-    const res = await requestDelete("/hello/ProductDelete", content);
-
-    if (res.ok) {
-        alert("데이터 삭제 완료");
-    }
-
-    renderProductItems();
 };
 
 const renderProductItems = async () => {
