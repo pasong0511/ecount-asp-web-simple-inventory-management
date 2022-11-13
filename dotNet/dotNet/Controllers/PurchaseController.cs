@@ -62,6 +62,9 @@ namespace dotNet
                 System.Diagnostics.Debug.WriteLine($"{parchaseDate}");                
                 
                 string key = PurchaseSDK.Create(purchase.ClientName, purchase.ProductName, purchase.Quantity, parchaseDate, purchase.UserId);
+
+
+
                 System.Diagnostics.Debug.WriteLine($"구매 {purchase.ClientName}, {purchase.ProductName}, {purchase.Quantity}, {purchase.Year} {purchase.Month} {purchase.Day}, {purchase.UserId}");
                 System.Diagnostics.Debug.WriteLine($"키 생성 -> {key}");
                 purchaseInfo.Add("key", key);
@@ -90,6 +93,30 @@ namespace dotNet
             return Json(purchases, JsonRequestBehavior.AllowGet);
         }
 
+        //삭제
+        [HttpPost]
+        public ActionResult PurchaseDelete(PurcaseDeleteModel purchase)
+        {
+            System.Diagnostics.Debug.WriteLine($"구매 삭제?! -> {purchase.Key} {purchase.UserId}");
+            PurchaseSDK.Del(purchase.Key);
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
+        }
+
+        //수정
+        [HttpPost]
+        public ActionResult PurchaseModify(PurcaseModifyModel purchase)
+        {
+            //삭제
+            PurchaseSDK.Del(purchase.Key);
+
+            //생성
+            var parchaseDate = new DateTime(purchase.Year, purchase.Month, purchase.Day);
+            System.Diagnostics.Debug.WriteLine($"수정 날짜 -> {parchaseDate}");
+
+            PurchaseSDK.Modify(purchase.ClientName, purchase.ClientKey, purchase.ProductName, purchase.ProductKey, purchase.Quantity, parchaseDate, purchase.UserId, purchase.Key);
+
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
+        }
 
     }
 
@@ -105,8 +132,7 @@ namespace dotNet
 
 
         public PurcaseCreateModel() { }
-        //생성용 생성자
-        public PurcaseCreateModel(string clientName, string productName, int quantity, int year, int month, int day, string userId)
+        public PurcaseCreateModel(string clientName, string productName, int quantity, int year, int month, int day, string userId, string key)
         {
             this.ClientName = clientName;
             this.ProductName = productName;
@@ -114,6 +140,49 @@ namespace dotNet
             this.Year = year;
             this.Month = month;
             this.Day = day;
+            this.UserId = userId;
+        }
+    }
+
+    public class PurcaseModifyModel
+    {
+        public string ClientName { get; set; }
+        public string ClientKey { get; set; }
+        public string ProductName { get; set; }
+        public string ProductKey { get; set; }
+        public int Quantity { get; set; }
+        public int Year { get; set; }
+        public int Month { get; set; }
+        public int Day { get; set; }
+        public string UserId { get; set; }
+        public string Key { get; set; }
+
+
+        public PurcaseModifyModel() { }
+        public PurcaseModifyModel(string clientName, string clientkey, string productName, string productkey, int quantity, int year, int month, int day, string userId, string key)
+        {
+            this.ClientName = clientName;
+            this.ClientKey = clientkey;
+            this.ProductName = productName;
+            this.ProductKey = productkey;
+            this.Quantity = quantity;
+            this.Year = year;
+            this.Month = month;
+            this.Day = day;
+            this.UserId = userId;
+            this.Key = key;
+        }
+    }
+
+    public class PurcaseDeleteModel
+    {
+        public string Key { get; set; }
+        public string UserId { get; set; }
+
+        public PurcaseDeleteModel() { }
+        public PurcaseDeleteModel(string key, string userId)
+        {
+            this.Key = key;
             this.UserId = userId;
         }
     }

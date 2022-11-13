@@ -10,13 +10,15 @@
 
 <div class="contents">
     <div class="user-input-area">
-        <div>등록</div>
+        <div style="font-weight:800">등록</div>
         <div class="user-input-control" style="white-space:nowrap">
-            <label for="name">거래처명</label>
-            <input type="text" name="client" class="purchase-client-name" required />
 
-            <label for="name">제품명</label>
-            <input type="text" name="name" class="purchase-product-name" required />
+
+            <label for="client">거래처명</label>
+            <select name="client" class="purchase-client-name"></select>
+
+            <label for="product">제품명</label>
+            <select name="product" class="purchase-product-name"></select>
 
             <label for="quantity">수량</label>
             <input type="number" class="purchase-product-quantity" required />
@@ -27,15 +29,34 @@
             <button class="submit-btn">저장</button>
         </div>
 
-        <div>조회</div>
+
+
+        <div style="font-weight:800">수정</div>
+        <div class="user-modify-control" style="display:flex">
+            <div class="client-modify-info" style="white-space:nowrap">
+
+
+                <label for="client">거래처명</label>
+                <select name="client" class="modify-client-name"></select>
+
+                <label for="product">제품명</label>
+                <select name="product" class="modify-product-name"></select>
+
+
+                <label for="quantity">수량</label>
+                <input type="number" class="modify-purchase-quantity" required />
+
+                <label for="date">날짜</label>
+                <input type="date" class="modify-purchase-date" />
+
+                <button class="modify-submit-btn">수정</button>
+            </div>
+        </div>
+        <div style="font-weight:800">조회</div>
         <div class="user-view-control" style="display:flex">
             <span>조회기준일</span>
             <input type="date" />
             <button>조회</button>
-        </div>
-
-        <div>수정</div>
-        <div class="user-modify-control" style="display:flex">
         </div>
     </div>
     <div class="product-results view-table">

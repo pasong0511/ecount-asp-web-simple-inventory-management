@@ -52,13 +52,18 @@ const createProductInfo = async () => {
     });
 };
 
-//수정 버튼 누르면 사용자가 입력했던 정보 가져옴
-const modifyInfoRender = (productName, productType, productSafeQuantity) => {
-    const productNameEl = document.querySelector(".modify-info input");
-    const productSafeQuantityEl = document.querySelector(".modify-safe-quantity");
+const removeProductItem = async (productKey, userId) => {
+    const content = {
+        Key: productKey,
+        userId: userId,
+    };
+    const res = await requestDelete("/hello/ProductDelete", content);
 
-    productNameEl.value = productName;
-    productSafeQuantityEl.value = productSafeQuantity;
+    if (res.ok) {
+        alert("데이터 삭제 완료");
+    }
+
+    renderProductItems();
 };
 
 //서버로 수정 정보 전달
@@ -77,6 +82,15 @@ const requestModifyInfo = async ({ userId, modifyName, modifyType, productKey, m
         alert("수정 성공");
         renderProductItems();
     }
+};
+
+//수정 버튼 누르면 사용자가 입력했던 정보 가져옴
+const modifyInfoRender = (productName, productType, productSafeQuantity) => {
+    const productNameEl = document.querySelector(".modify-info input");
+    const productSafeQuantityEl = document.querySelector(".modify-safe-quantity");
+
+    productNameEl.value = productName;
+    productSafeQuantityEl.value = productSafeQuantity;
 };
 
 //아이템에서 수정 버튼 클릭
@@ -103,20 +117,6 @@ const modifyProductItem = (productName, productType, productKey, productSafeQuan
     //버그 수정 -> 이벤트를 등록하고 이벤트 제거 함수를 반환
     submitBtn.addEventListener("click", handleClick);
     return () => submitBtn.removeEventListener("click", handleClick);
-};
-
-const removeProductItem = async (productKey, userId) => {
-    const content = {
-        Key: productKey,
-        userId: userId,
-    };
-    const res = await requestDelete("/hello/ProductDelete", content);
-
-    if (res.ok) {
-        alert("데이터 삭제 완료");
-    }
-
-    renderProductItems();
 };
 
 // 버그수정 -> removeEvent를 임시로 저장할 공간

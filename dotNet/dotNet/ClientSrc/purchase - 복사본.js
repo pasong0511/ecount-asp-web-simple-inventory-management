@@ -1,7 +1,7 @@
 import { requestGet, requestPost, requestPostToJson, requestDelete } from "./api.js";
 import { createEl, createBtn, get_cookie, cutDateFull, formatDate } from "./util.js";
 import { PRODUCT_TYPE } from "./constants.js";
-import { createSelectOption } from "./selectoprion.js";
+import { createSelectOption, removeAllOptions } from "./selectoprion.js";
 
 const viewTableEl = document.querySelector(".product-results tbody");
 
@@ -199,51 +199,55 @@ const renderPurchaseItem = (clientName, clickKey, productKey, productName, produ
 };
 
 const renderUserSelectOption = (res) => {
-    const selectClient = document.querySelector(".purchase-client-name");
-    const selectProduct = document.querySelector(".purchase-product-name");
+    const selectClientArea = document.querySelector(".purchase-client-name-area");
+    const selectClient = createEl("select", "purchase-client-name");
 
-    const selectModifyClient = document.querySelector(".modify-client-name");
-    const selectModifyProduct = document.querySelector(".modify-product-name");
+    const selectProductArea = document.querySelector(".purchase-product-name-area");
+    const selectProduct = createEl("select", "purchase-product-name");
 
+    const selectModifyClientArea = document.querySelector(".modify-client-name-area");
+    const selectModifyClient = createEl("select", "modify-client-name");
+
+    const selectModifyProductArea = document.querySelector(".modify-product-name-area");
+    const selectModifyProduct = createEl("select", "modify-client-name");
+
+    selectClientArea.appendChild(selectClient);
+    selectProductArea.appendChild(selectProduct);
+    selectModifyClientArea.appendChild(selectModifyClient);
+    selectModifyProductArea.appendChild(selectModifyProduct);
+
+    //생성
     createSelectOption(res.Clients, selectClient);
     createSelectOption(res.Clients, selectModifyClient);
-
     createSelectOption(res.Products, selectProduct);
     createSelectOption(res.Products, selectModifyProduct);
 };
 
+const createSelectOption = (article, selectEL) => {
+    article.forEach((item) => {
+        const optionEl = document.createElement("option");
+        optionEl.value = item;
+        optionEl.innerText = item;
+        selectEL.append(optionEl);
+    });
+};
+
 const fetchUserArticles = async () => {
-    const res = await requestPostToJson("/Login/Article", { UserId: get_cookie("id") });
+    const res = {
+        Products: ["밀", "쌀", "미역", "호떡", "연필"],
+        Clients: ["카카오", "네이버", "다음", "구글", "페이스북"],
+    };
+
+    console.log(res);
     renderUserSelectOption(res);
 };
 
 const renderPurchaseItems = async () => {
     fetchUserArticles();
-
-    viewTableEl.innerText = "";
-    const purchasetems = await requestGet("/Purchase/PurchaseItems");
-    console.log("데이터 목록 출력->", purchasetems);
-
-    purchasetems.forEach(({ Client, Product, Quantity, DateTime, UserId, Key }) => {
-        //console.log("프론트 문제냐?", Client, Product, Quantity, formatDate(DateTime), UserId);
-        //console.log(Client.Name, Client.Key, Product.Name, Product.Type, formatDate(DateTime));
-        renderPurchaseItem(Client.Name, Client.Key, Product.Key, Product.Name, Product.Type, Quantity, formatDate(DateTime), UserId, Key);
-    });
 };
 
 const init = () => {
-    if (!get_cookie("id")) {
-        alert("로그인 부탁드립니다");
-        return;
-    }
-
     renderPurchaseItems();
-
-    const nowDate = document.querySelector(".purchase-product-date");
-    nowDate.value = new Date().toISOString().substring(0, 10);
-
-    const submitBtn = document.querySelector(".submit-btn");
-    submitBtn.addEventListener("click", createClientInfo);
 };
 
 document.addEventListener("DOMContentLoaded", () => {

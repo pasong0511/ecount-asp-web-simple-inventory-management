@@ -10,7 +10,7 @@ namespace ECount.SDK
 {
     public class PurchaseSDK
     {
-        //key 빼고 다 넘겨줌
+        //생성 key 빼고 다 넘겨줌
         static public string Create(string clientName, string productName, int quantity, DateTime dateTime, string userId)
         {
             var client = ClientDac.Get(clientName);    //1. 고객에 있는지 확인
@@ -26,6 +26,22 @@ namespace ECount.SDK
             }
 
             return PurchaseDac.Create(client, product, quantity, dateTime, userId);        //2. 상품이 이미 등록되어 있는 경우 구매정보 생성
+        }
+
+        //수정
+        static public void Modify(string clientName, string clientKey, string productName, string productKey, int quantity, DateTime dateTime, string userId, string key)
+        {
+            var client = ClientDac.GetByKey(clientKey);    //1. 고객에 있는지 확인
+            var product = ProductDac.GetByKey(productKey);  //2. 상품에 있는지 확인
+
+            PurchaseDac.Modify(client, product, quantity, dateTime, userId, key);
+        }
+
+        //삭제
+        static public void Del(string key)
+        {
+            System.Diagnostics.Debug.WriteLine($"구매 삭제 키 체크 sdk -> {key}");
+            PurchaseDac.Del(key);
         }
 
         //구매 생성 정보 가져오기

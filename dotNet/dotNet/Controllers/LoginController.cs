@@ -55,5 +55,37 @@ namespace dotNet
             userList = LoginSDK.Get();
             return Json(userList, JsonRequestBehavior.AllowGet);
         }
+
+        //등록된 id별 고객명 반환
+        [HttpPost]
+        public ActionResult Article(UserIdModel res)
+        {    //매개변수 -> string id
+
+            System.Diagnostics.Debug.WriteLine($"로그인한 사용자 정보-> {res.UserId}");
+
+            if (res != null)
+            {
+                var userData = new Dictionary<string, List<string>>();
+
+                var productNameList = ProductSDK.GetUserProductLists(res.UserId);
+                var clientNameList = ClientSDK.GetUserClientLists(res.UserId);
+                userData.Add("Products", productNameList);
+                userData.Add("Clients", clientNameList);
+
+                return Json(userData, JsonRequestBehavior.AllowGet);
+            }
+            return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+        }
+    }
+
+    public class UserIdModel
+    {
+        public string UserId { get; set; }
+
+        public UserIdModel() { }
+        public UserIdModel(string userId)
+        {
+            this.UserId = userId;
+        }
     }
 }

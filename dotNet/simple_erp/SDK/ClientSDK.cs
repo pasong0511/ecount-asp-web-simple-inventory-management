@@ -32,6 +32,12 @@ namespace ECount.SDK
             ClientDac.Modify(name, key, userId);
         }
 
+        //삭제
+        static public void Del(string key)
+        {
+            ClientDac.Del(key);
+        }
+
         static public List<ClientModel> Get()
         {
             return ClientDac.Get();     //스토어에 있는 모든 클라이언트 모델 정보 가져오기
@@ -42,29 +48,20 @@ namespace ECount.SDK
             return ClientDac.Get(name);
         }
 
-        static public void Del(string key)
-        {
-            ClientDac.Del(key);
-        }
-
         //userid에 해당하는 등록정보 딕셔너리로 생성 key : userid, value : name
-        static public Dictionary<string, List<string>> GetUserClientLists(string userId)
+        static public List<string> GetUserClientLists(string userId)
         {
-
-            var clientInfo = new Dictionary<string, List<string>>();
             List<string> list = new List<string>();
-
             var clients = Get();
+
             foreach (var client in clients)
             {
-                if (client.UserId == userId)        //사용자 정보가 같은 경우 이름 넘김
+                if (client.UserId == userId)
                 {
                     list.Add(client.Name);
                 }
             }
-
-            clientInfo.Add(userId, list);
-            return clientInfo;
+            return list;
         }
     }
 }

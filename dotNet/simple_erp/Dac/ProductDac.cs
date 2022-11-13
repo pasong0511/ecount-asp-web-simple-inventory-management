@@ -31,6 +31,12 @@ namespace ECount.Dac
             store.Save(product);
         }
 
+        //키로 프로덕트 모델겟
+        static public void Del(string key)
+        {
+            store.Delete(x => x.Key == key);
+        }
+
         //프로덕트 모델 겟
         static public List<ProductModel> Get()
         {
@@ -49,13 +55,10 @@ namespace ECount.Dac
             return store.Get(x => x.Key == key);
         }
 
-        //키로 프로덕트 모델겟
-        static public void Del(string key)
+        static public ProductModel GetByKey(string key)
         {
-            store.Delete(x => x.Key == key);
+            return store.Get(x => x.Key == key);
         }
-
-        
 
         /*static public ProductModel GetBykey(string key)
         {

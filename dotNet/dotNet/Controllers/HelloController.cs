@@ -106,6 +106,7 @@ namespace dotNet
             return Json(products, JsonRequestBehavior.AllowGet);
         }
 
+        //삭제
         [HttpPost]
         public ActionResult ProductDelete(DeleteModel data)
         {
@@ -113,6 +114,7 @@ namespace dotNet
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
+        //수정
         [HttpPost]
         public ActionResult ProductModify(ProductModel data)
         {
@@ -122,40 +124,18 @@ namespace dotNet
 
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
-
-        //*************************** 조회 ***************************
-        //등록된 id별 고객명 반환
-        [HttpGet]
-        public ActionResult ProductLists()
-        {    //매개변수 -> string id
-            var productNameList = ProductSDK.GetUserProductLists("test");
-            return Json(productNameList, JsonRequestBehavior.AllowGet);
-        }
-
-        //--> dlProduct에 들어있는 정보 하나만 줌
-        //[HttpGet]
-        //public ActionResult ProductItem()
-        //{
-        //    List<ProductModel> products = new List<ProductModel>();
-        //    products = ProductSDK.Get();
-        //    System.Diagnostics.Debug.WriteLine($"출력 -> {products}");
-        //    return Json(products, JsonRequestBehavior.AllowGet);
-        //}
-
-        //[HttpPost]
-        //public ActionResult Data(Product product)
-        //{
-        //    System.Diagnostics.Debug.WriteLine($"밖?");
-        //    System.Diagnostics.Debug.WriteLine($"{product} {product.productName} {product.productType}");
-
-        //    if (product != null) {
-        //        //ProductSDK.Create(product.Name, product.Type);
-        //        System.Diagnostics.Debug.WriteLine($"안?");
-        //        System.Diagnostics.Debug.WriteLine($"{product.productName} {product.productType}");
-        //    }
-        //    return new HttpStatusCodeResult(HttpStatusCode.OK);
-        //}
     }
+
+    /*public class UserIdModel
+    {
+        public string UserId { get; set; }
+
+        public UserIdModel() { }
+        public UserIdModel(string userId)
+        {
+            this.UserId = userId;
+        }
+    }*/
 
     public class DeleteModel
     {

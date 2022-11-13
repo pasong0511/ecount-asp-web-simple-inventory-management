@@ -13,7 +13,7 @@ namespace ECount.Dac
     {
         static IStore<ClientModel> store = StoreResolver.GetStore<ClientModel>();
 
-        //생성 -> 키제외
+        //생성 -> 키 제외
         static public string Create(string name, string userId)
         {
             var Client = new ClientModel(name, userId);
@@ -22,11 +22,17 @@ namespace ECount.Dac
             return Client.Key;
         }
 
-        //수정 -> 키포함
+        //수정 -> 키 포함
         static public void Modify(string name, string key, string userId)
         {
             var Client = new ClientModel(name, userId);
             store.Save(Client);
+        }
+
+        //삭제 -> 키만
+        static public void Del(string key)
+        {
+            store.Delete(x => x.Key == key);
         }
 
         static public List<ClientModel> Get()
@@ -44,9 +50,9 @@ namespace ECount.Dac
             return store.Get(x => x.Key == key);
         }
 
-        static public void Del(string key)
+        static public ClientModel GetByKey(string key)
         {
-            store.Delete(x => x.Key == key);
+            return store.Get(x => x.Key == key);
         }
 
     }

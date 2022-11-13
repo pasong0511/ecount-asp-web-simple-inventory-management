@@ -10,52 +10,70 @@ namespace ECount.SDK
 {
     public class SaleSDK
     {
-        List<SaleHistoryModel> sales = new List<SaleHistoryModel>();
-
-        static public void Create(string productName, int quantity, DateTime dateTime)
+        //생성 key 빼고 다 넘겨줌
+        static public string Create(string clientName, string productName, int quantity, DateTime dateTime, string userId)
         {
-            //1. 상품 정보에 있는지 먼저 확인하기
-            var product = ProductDac.Get(productName);
+            var client = ClientDac.Get(clientName);    //1. 고객에 있는지 확인
+            var product = ProductDac.Get(productName);  //2. 상품에 있는지 확인
 
-            //2. 상품이 등록되어있지 않으면 버리기
-            if (product == null) {
+            if (client == null)
+            {
+                throw new Exception($"고객이 존재하지 않습니다: {clientName}");
+            }
+
+            if (product == null)
+            {
                 throw new Exception($"품목이 존재하지 않습니다: {productName}");
             }
 
-            var purchase = PurchaseSDK.GetQuantity(product);
-            var sale = GetQuantity(product) + quantity;
-
-            if (purchase - sale < 0) {
-                throw new Exception($"재고가 없는디요. {productName}");
-            }
-
-            //3. 상품이 이미 등록되어 있는 경우 구매정보 생성
-            SaleDac.Create(product, quantity, dateTime);
+            return SaleDac.Create(client, product, quantity, dateTime, userId);        //2. 상품이 이미 등록되어 있는 경우 구매정보 생성
         }
 
-        //판매 정보 가져오기
+        //수정
+        static public void Modify(string clientName, string clientKey, string productName, string productKey, int quantity, DateTime dateTime, string userId, string key)
+        {
+            var client = ClientDac.GetByKey(clientKey);    //1. 고객에 있는지 확인
+            var product = ProductDac.GetByKey(productKey);  //2. 상품에 있는지 확인
+
+            SaleDac.Modify(client, product, quantity, dateTime, userId, key);
+        }
+
+        //삭제
+        static public void Del(string key)
+        {
+            System.Diagnostics.Debug.WriteLine($"구매 삭제 키 체크 sdk -> {key}");
+            SaleDac.Del(key);
+        }
+
+        //구매 생성 정보 가져오기
         static public List<SaleHistoryModel> GetHistory()
         {
             return GetHistory(DateTime.Now);
         }
 
-        //날짜로 판매정보 가져오기
+        //날짜로 구매 정보 가져오기
         static public List<SaleHistoryModel> GetHistory(DateTime dateTime)
         {
             return SaleDac.GetHistory(dateTime);
         }
 
+        // -- 추가 --
+        //개수 가져오기 가져오기
         static public int GetQuantity(ProductModel product)
         {
             return GetQuantity(product, DateTime.Now);
         }
 
+        // -- 추가 --
+        //구매 개수 누적하기
         static public int GetQuantity(ProductModel product, DateTime date)
         {
             var sales = GetHistory(date);
             var quantity = 0;
-            foreach (var sale in sales) {
-                if (product.Compare(sale.Product)) {
+            foreach (var sale in sales)
+            {
+                if (product.Compare(sale.Product))
+                {
                     quantity += sale.Quantity;
                 }
             }
@@ -68,7 +86,8 @@ namespace ECount.SDK
             var itemList = SaleDac.GetItem(productName);
             var quantity = 0;
 
-            foreach (var item in itemList) {
+            foreach (var item in itemList)
+            {
                 quantity += item.Quantity;
             }
             return quantity;

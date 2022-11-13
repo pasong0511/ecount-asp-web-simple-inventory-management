@@ -36,5 +36,5 @@ export const cutDateMonth = (date) => {
 
 //#C DateTime 객체로 넘어온 데이터 변환
 export const formatDate = (date) => {
-    return new Date(parseInt(/-?\d+/.exec(date)[0])).toLocaleDateString();
+    return new Date(parseInt(/-?\d+/.exec(date)[0])).toISOString().split("T")[0];
 };

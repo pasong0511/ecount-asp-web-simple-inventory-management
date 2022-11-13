@@ -13,13 +13,26 @@ namespace ECount.Dac
     {
         static IStore<PurchaseHistoryModel> store = StoreResolver.GetStore<PurchaseHistoryModel>();
 
-        //스토어에 저장 -> 모든 데이터
+        //스토어에 저장 -> 키 제외
         static public string Create(ClientModel client, ProductModel product, int quantity, DateTime dateTime, string userId)
         {
             var purchase = new PurchaseHistoryModel(client, product, quantity, dateTime, userId);
             store.Save(purchase);
 
             return purchase.Key;
+        }
+
+        //수정 -> 키 포함
+        static public void Modify(ClientModel client, ProductModel product, int quantity, DateTime dateTime, string userId, string key)
+        {
+            var purchase = new PurchaseHistoryModel(client, product, quantity, dateTime, userId, key);
+            store.Save(purchase);
+        }
+
+        //키로 프로덕트 모델겟
+        static public void Del(string key)
+        {
+            store.Delete(x => x.Key == key);
         }
 
         //날짜로 구분해서 날짜에 매칭되는 스토어에 있는 전체 PurchaseHistoryModel가져오기
